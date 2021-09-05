@@ -4,11 +4,32 @@ import 'package:agile_unify/core/app_colors.dart';
 import 'package:agile_unify/screens/base/base_screen.dart';
 import 'package:agile_unify/screens/signup/signup_screen.dart';
 import 'package:agile_unify/stores/login_store.dart';
+import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final LoginStore loginStore = LoginStore();
+  final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    when((_) => userManagerStore.user != null, () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => BaseScreen()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,12 +142,9 @@ class LoginScreen extends StatelessWidget {
                         elevation: 16,
                         onPressed: () {
                           loginStore.loginPressed();
-                          Future.delayed(Duration(seconds: 2))
-                              .then((_) => Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BaseScreen()),
-                                  ));
+                          // Future.delayed(Duration(seconds: 1)).then((_) {
+                          //   if (GetIt.I<UserManagerStore>().isLoggedIn) {}
+                          // });
                           //Navigator.of(context).pop();
                         },
                       ),

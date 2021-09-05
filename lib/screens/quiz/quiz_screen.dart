@@ -1,5 +1,4 @@
 import 'package:agile_unify/core/app_colors.dart';
-import 'package:agile_unify/models/quiz.dart';
 import 'package:agile_unify/screens/quiz/components/next_button.dart';
 import 'package:agile_unify/screens/quiz/components/question_indicator.dart';
 import 'package:agile_unify/screens/quiz/quiz_controller.dart';
@@ -39,12 +38,7 @@ class _QuizScreenState extends State<QuizScreen> {
         duration: Duration(milliseconds: 500),
         curve: Curves.linear,
       );
-  }
-
-  void onSelected(bool value) {
-    if (value) {
-      controller.correctAnswers++;
-    }
+    quizStore.resetAnswerSelected();
   }
 
   @override
@@ -95,7 +89,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   children: homeStore.selectedQuiz.questions
                       .map((e) => QuestionScreen(
                             question: e,
-                            onSelected: onSelected,
+                            onSelected: quizStore.onSelected,
                           ))
                       .toList(),
                 ),
@@ -118,29 +112,51 @@ class _QuizScreenState extends State<QuizScreen> {
                     return Container(color: Colors.red);
                   if (value < homeStore.selectedQuiz.questions.length)
                     return Expanded(
-                      child: NextButton.purple(
-                        label: 'Próxima Questão',
-                        onTap: nextPage,
-                      ),
-                    );
+                        child: quizStore.answerSelected
+                            ? NextButton.purple(
+                                label: 'Próxima Questão',
+                                onTap: nextPage,
+                              )
+                            : NextButton.white(
+                                label: 'Próxima Questão',
+                                onTap: nextPage,
+                              ));
 
                   if (value == homeStore.selectedQuiz.questions.length)
                     return Expanded(
-                      child: NextButton.purple(
-                          label: 'Concluir Simulado',
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ResultScreen(
-                                  title: homeStore.selectedQuiz.title,
-                                  length:
-                                      homeStore.selectedQuiz.questions.length,
-                                  result: controller.correctAnswers,
-                                ),
-                              ),
-                            );
-                          }),
+                      child: quizStore.answerSelected
+                          ? NextButton.purple(
+                              label: 'Concluir Simulado',
+                              onTap: () {
+                                Future.delayed(Duration(seconds: 1)).then((_) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ResultScreen(
+                                          title: homeStore.selectedQuiz.title,
+                                          length: homeStore
+                                              .selectedQuiz.questions.length,
+                                          result: quizStore.correctAnswers,
+                                        ),
+                                      ));
+                                });
+                              })
+                          : NextButton.white(
+                              label: 'Concluir Simulado',
+                              onTap: () {
+                                Future.delayed(Duration(seconds: 1)).then((_) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ResultScreen(
+                                          title: homeStore.selectedQuiz.title,
+                                          length: homeStore
+                                              .selectedQuiz.questions.length,
+                                          result: quizStore.correctAnswers,
+                                        ),
+                                      ));
+                                });
+                              }),
                     );
                   return Container();
                 })

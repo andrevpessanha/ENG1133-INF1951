@@ -17,8 +17,7 @@ abstract class _HomeStore with Store {
   _HomeStore() {
     autorun((_) async {
       setLoading(true);
-      //Aguardar até que a sessão do usuário
-      // seja validada e impede erros de sessão
+
       if (!userManagerStore.readyToFetchQuizzes) return;
       try {
         final newQuizzes = await QuizRepository().getHomeQuizList(

@@ -1,3 +1,4 @@
+import 'package:agile_unify/screens/base/base_screen.dart';
 import 'package:agile_unify/screens/quiz/components/next_button.dart';
 import 'package:flutter/material.dart';
 import 'package:agile_unify/core/core.dart';
@@ -74,7 +75,11 @@ class ResultScreen extends StatelessWidget {
                         child: NextButton.white(
                             label: 'Ver Simulados',
                             onTap: () {
-                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BaseScreen()),
+                              );
                             }),
                       ),
                     ),

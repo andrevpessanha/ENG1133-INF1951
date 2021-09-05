@@ -1,7 +1,6 @@
-import 'package:agile_unify/models/question.dart';
-import 'package:agile_unify/models/quiz.dart';
 import 'package:agile_unify/repositories/quiz_repository.dart';
 import 'package:agile_unify/stores/home_store.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
@@ -17,11 +16,8 @@ abstract class _QuizStore with Store {
       if (homeStore.selectedQuiz != null &&
           homeStore.selectedQuiz.questions == null) {
         try {
-          print('BUSCANDO QUESTIONS');
           setLoading(true);
           await getQuizQuestions();
-          print(
-              'PRONTO! ' + homeStore.selectedQuiz.questions.length.toString());
 
           setError(null);
           setLoading(false);
@@ -29,8 +25,29 @@ abstract class _QuizStore with Store {
           setError(e.toString());
         }
       }
+      reset();
     });
   }
+
+  @observable
+  bool answerSelected = false;
+
+  @action
+  resetAnswerSelected() => answerSelected = false;
+
+  @observable
+  int correctAnswers = 0;
+
+  @action
+  void onSelected(bool value) {
+    answerSelected = true;
+    if (value) {
+      correctAnswers++;
+    }
+  }
+
+  @action
+  void reset() => correctAnswers = 0;
 
   @observable
   bool loading = false;

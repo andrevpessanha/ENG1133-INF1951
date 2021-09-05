@@ -1,10 +1,14 @@
 import 'package:agile_unify/components/error_box.dart';
 import 'package:agile_unify/components/replace_raisedbutton.dart';
 import 'package:agile_unify/core/app_colors.dart';
+import 'package:agile_unify/screens/base/base_screen.dart';
 import 'package:agile_unify/stores/signup_store.dart';
+import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -14,11 +18,25 @@ class SignUpScreen extends StatefulWidget {
 final SignupStore signupStore = SignupStore();
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+
   TextStyle titleStyle = TextStyle(
     color: Colors.grey[800],
     fontSize: 16,
     fontWeight: FontWeight.w700,
   );
+
+  @override
+  void initState() {
+    super.initState();
+
+    when((_) => userManagerStore.user != null, () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => BaseScreen()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +154,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         elevation: 16,
                         onPressed: () {
                           signupStore.signUpPressed();
-                          Navigator.popUntil(context,
-                              ModalRoute.withName(Navigator.defaultRouteName));
                         },
                       ),
                     );

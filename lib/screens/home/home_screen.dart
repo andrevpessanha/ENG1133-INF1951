@@ -20,8 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeStore homeStore = GetIt.I<HomeStore>();
   final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
 
-  final ScrollController scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -95,12 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         return EmptyCard('Nenhum simulado encontrado! 🤷🏻‍♀️');
 
                       return GridView.builder(
-                        controller: scrollController,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 10,
-                          childAspectRatio: 0.9,
+                          childAspectRatio: 1.0,
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 5.0, vertical: 10.0),
