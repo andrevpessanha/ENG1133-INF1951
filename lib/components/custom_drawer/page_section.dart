@@ -35,7 +35,7 @@ class PageSection extends StatelessWidget {
         ),
         PageTile(
           label: 'Cursos Acessíveis',
-          iconData: Icons.star_rate,
+          iconData: Icons.bolt,
           onTap: () {
             verifyLoginAndSetPage(1);
           },
@@ -43,7 +43,7 @@ class PageSection extends StatelessWidget {
         ),
         PageTile(
           label: 'Cursos Gratuitos',
-          iconData: Icons.card_giftcard,
+          iconData: Icons.star_rate,
           onTap: () {
             verifyLoginAndSetPage(2);
           },

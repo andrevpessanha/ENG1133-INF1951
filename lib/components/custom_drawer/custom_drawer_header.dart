@@ -22,49 +22,57 @@ class CustomDrawerHeader extends StatelessWidget {
         }
       },
       child: Container(
-        color: AppColors.purple,
-        height: 120,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          children: [
-            Icon(
-              Icons.person,
-              color: Colors.white,
-              size: 35,
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    userManagerStore.isLoggedIn
-                        ? 'Olá, ' + userManagerStore.user.name + '!'
-                        : 'Olá, seja bem-vindo!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                      userManagerStore.isLoggedIn
-                          ? userManagerStore.user.email
-                          : 'Entrar ou Criar Conta',
-                      style: TextStyle(
-                        color: Colors.yellow,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ))
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+          margin: EdgeInsets.only(bottom: 8.0),
+          color: AppColors.purple,
+          height: 170,
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+          child: Stack(
+            children: [
+              Positioned(
+                  left: 0.0,
+                  bottom: 0.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 80.0),
+                        width: 70.0,
+                        height: 70.0,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: userManagerStore.isLoggedIn
+                                  ? userManagerStore.user.photo != ""
+                                      ? NetworkImage(
+                                          userManagerStore.user.photo)
+                                      : AssetImage("assets/images/user.png")
+                                  : AssetImage("assets/images/user.png"),
+                            )),
+                      ),
+                      SizedBox(height: 5.0),
+                      Text(
+                          !userManagerStore.isLoggedIn
+                              ? "Olá, seja bem-vindo!"
+                              : "Olá, ${userManagerStore.user.name}!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(height: 10.0),
+                      !userManagerStore.isLoggedIn
+                          ? Text("Entrar ou Criar Conta",
+                              style: TextStyle(
+                                  color: AppColors.yellow,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold))
+                          : Container(),
+                    ],
+                  ))
+            ],
+          )),
     );
   }
 }

@@ -4,6 +4,7 @@ class User {
       this.name,
       this.email,
       this.password,
+      this.photo,
       this.createdAt,
       this.score});
 
@@ -11,6 +12,7 @@ class User {
   String name;
   String email;
   String password;
+  String photo;
   DateTime createdAt;
   double score;
 

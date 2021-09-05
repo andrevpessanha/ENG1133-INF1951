@@ -8,6 +8,7 @@ class UserRepository {
     final parseUser = ParseUser(user.email, user.password, user.email);
 
     parseUser.set<String>(keyUserName, user.name);
+    parseUser.set<num>(keyUserScore, 0.0);
 
     final response = await parseUser.signUp();
 
@@ -44,6 +45,17 @@ class UserRepository {
     return null;
   }
 
+  User mapParseToUser(ParseUser parseUser) {
+    return User(
+      id: parseUser.objectId,
+      name: parseUser.get(keyUserName),
+      email: parseUser.get(keyUserEmail),
+      photo: parseUser.get(keyUserPhoto),
+      score: parseUser.get(keyUserScore),
+      createdAt: parseUser.get(keyUserCreatedAt),
+    );
+  }
+
   Future<void> save(User user) async {
     final ParseUser parseUser = await ParseUser.currentUser();
 
@@ -74,15 +86,6 @@ class UserRepository {
   Future<void> logout() async {
     final ParseUser currentUser = await ParseUser.currentUser();
     await currentUser.logout();
-  }
-
-  User mapParseToUser(ParseUser parseUser) {
-    return User(
-      id: parseUser.objectId,
-      name: parseUser.get(keyUserName),
-      email: parseUser.get(keyUserEmail),
-      createdAt: parseUser.get(keyUserCreatedAt),
-    );
   }
 
   Future<void> recoverPassword(String email) async {
