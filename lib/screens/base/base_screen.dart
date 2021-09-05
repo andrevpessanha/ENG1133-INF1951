@@ -1,6 +1,8 @@
 import 'package:agile_unify/screens/course/accessible_courses_screen.dart';
 import 'package:agile_unify/screens/course/free_courses_screen.dart';
 import 'package:agile_unify/screens/home/home_screen.dart';
+import 'package:agile_unify/screens/offline/offline_screen.dart';
+import 'package:agile_unify/stores/connectivity_store.dart';
 import 'package:agile_unify/stores/page_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -15,6 +17,7 @@ class _BaseScreenState extends State<BaseScreen> {
   final PageController pageController = PageController();
 
   final PageStore pageStore = GetIt.I<PageStore>();
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
 
   @override
   void initState() {
@@ -22,6 +25,14 @@ class _BaseScreenState extends State<BaseScreen> {
 
     reaction((_) => pageStore.page,
         (page) => pageController.jumpToPage(page as int));
+
+    autorun((_) {
+      if (!connectivityStore.connected) {
+        Future.delayed(Duration(milliseconds: 50)).then((value) {
+          showDialog(context: context, builder: (_) => OfflineScreen());
+        });
+      }
+    });
   }
 
   @override
