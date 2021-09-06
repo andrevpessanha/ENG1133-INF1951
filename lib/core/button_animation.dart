@@ -1,3 +1,4 @@
+import 'package:agile_unify/screens/base/base_screen.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -33,7 +34,7 @@ class StaggerAnimation extends StatelessWidget {
         ),
         containerCircleAnimation = EdgeInsetsTween(
           begin: const EdgeInsets.only(bottom: 80.0),
-          end: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+          end: const EdgeInsets.only(bottom: 0.0),
         ).animate(
           CurvedAnimation(
             parent: buttonController,
@@ -54,14 +55,14 @@ class StaggerAnimation extends StatelessWidget {
   Future<Null> _playAnimation() async {
     try {
       await buttonController.forward();
-      //await buttonController.reverse();
+      await buttonController.reverse();
     } on TickerCanceled {}
   }
 
   Widget _buildAnimation(BuildContext context, Widget child) {
     return Padding(
       padding: buttomZoomOut.value == 70
-          ? const EdgeInsets.only(top: 0.0, bottom: 80.0)
+          ? const EdgeInsets.only(bottom: 80.0)
           : containerCircleAnimation.value,
       child: InkWell(
           onTap: () {
@@ -75,7 +76,7 @@ class StaggerAnimation extends StatelessWidget {
                         ? buttonSqueezeanimation.value
                         : buttomZoomOut.value,
                     height:
-                        buttomZoomOut.value == 70 ? 60.0 : buttomZoomOut.value,
+                        buttomZoomOut.value == 70 ? 50.0 : buttomZoomOut.value,
                     alignment: FractionalOffset.center,
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
@@ -89,14 +90,14 @@ class StaggerAnimation extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w600,
                               letterSpacing: 0.3,
                             ),
                           )
                         : buttomZoomOut.value < 300.0
                             ? CircularProgressIndicator(
                                 value: null,
-                                strokeWidth: 1.0,
+                                strokeWidth: 2.0,
                                 valueColor:
                                     AlwaysStoppedAnimation<Color>(Colors.white),
                               )
@@ -117,10 +118,14 @@ class StaggerAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+
     buttonController.addListener(() {
-      if (buttonController.isCompleted &&
-          GetIt.I<UserManagerStore>().isLoggedIn) {
-        Navigator.pop(context);
+      if (buttonController.isCompleted && userManagerStore.isLoggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BaseScreen()),
+        );
       }
     });
     return AnimatedBuilder(

@@ -1,188 +1,204 @@
+import 'package:agile_unify/components/custom_button.dart';
 import 'package:agile_unify/components/error_box.dart';
-import 'package:agile_unify/components/replace_raisedbutton.dart';
+import 'package:agile_unify/components/replace_flatbutton.dart';
 import 'package:agile_unify/core/app_colors.dart';
-import 'package:agile_unify/screens/base/base_screen.dart';
+import 'package:agile_unify/core/button_animation.dart';
 import 'package:agile_unify/screens/signup/signup_screen.dart';
 import 'package:agile_unify/stores/login_store.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
   final LoginStore loginStore = LoginStore();
   final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+
+  AnimationController loginButtonController;
+  var animationStatus = 0;
+
+  Future<Null> playAnimation() async {
+    try {
+      await loginButtonController.forward();
+      await loginButtonController.reverse();
+    } on TickerCanceled {}
+  }
 
   @override
   void initState() {
     super.initState();
 
-    when((_) => userManagerStore.user != null, () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => BaseScreen()),
-      );
-    });
+    loginButtonController = new AnimationController(
+      duration: Duration(milliseconds: 1000),
+      vsync: this,
+    );
+  }
+
+  @override
+  dispose() {
+    loginButtonController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Entrar'),
-        centerTitle: true,
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Card(
-            margin: const EdgeInsets.symmetric(horizontal: 32),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            elevation: 16,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Observer(builder: (_) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: ErrorBox(
-                        message: loginStore.error,
-                      ),
-                    );
-                  }),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3, bottom: 4, top: 8),
-                    child: Text(
-                      'E-mail',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Observer(builder: (_) {
-                    return TextField(
-                      enabled: !loginStore.loading,
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: 'Informe seu e-mail',
-                          isDense: true,
-                          errorText: loginStore.emailError),
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      onChanged: loginStore.setEmail,
-                    );
-                  }),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3, bottom: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Senha',
-                            style: TextStyle(
-                              color: Colors.grey[800],
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            )),
-                        GestureDetector(
-                          child: Text(
-                            'Esqueceu sua senha?',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: AppColors.purple,
-                            ),
-                          ),
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                  Observer(builder: (_) {
-                    return TextField(
-                      enabled: !loginStore.loading,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: 'Informe sua senha',
-                        isDense: true,
-                        errorText: loginStore.passwordError,
-                      ),
-                      obscureText: true,
-                      onChanged: loginStore.setPassword,
-                    );
-                  }),
-                  Observer(builder: (_) {
-                    return Container(
-                      margin: const EdgeInsets.only(top: 20, bottom: 12),
-                      height: 40,
-                      child: ReplaceRaisedButton(
-                        color: AppColors.purple,
-                        disabledColor: AppColors.purple,
-                        child: loginStore.loading
-                            ? CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation(
-                                  AppColors.purple,
-                                ),
-                              )
-                            : Text('ENTRAR'),
-                        textColor: Colors.white,
-                        elevation: 16,
-                        onPressed: () {
-                          loginStore.loginPressed();
-                          // Future.delayed(Duration(seconds: 1)).then((_) {
-                          //   if (GetIt.I<UserManagerStore>().isLoggedIn) {}
-                          // });
-                          //Navigator.of(context).pop();
-                        },
-                      ),
-                    );
-                  }),
-                  Divider(
-                    color: AppColors.grey,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      children: [
-                        const Text('Não tem uma conta? ',
-                            style: TextStyle(fontSize: 16)),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => SignUpScreen()));
-                          },
-                          child: Text(
-                            'Cadastre-se',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: AppColors.purple,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+        appBar: AppBar(
+          title: const Text('Entrar'),
+          centerTitle: true,
         ),
+        body: ListView(
+          padding: const EdgeInsets.all(0.0),
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomCenter,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 50.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 40.0, vertical: 80.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Observer(builder: (_) {
+                                  return ErrorBox(
+                                    message: loginStore.error,
+                                  );
+                                }),
+                                SizedBox(height: 10),
+                                Observer(builder: (_) {
+                                  return TextField(
+                                    enabled: !loginStore.loading,
+                                    decoration: InputDecoration(
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColors.purple,
+                                          ),
+                                        ),
+                                        hintText: "E-mail",
+                                        errorText: loginStore.emailError),
+                                    keyboardType: TextInputType.emailAddress,
+                                    autocorrect: false,
+                                    onChanged: loginStore.setEmail,
+                                  );
+                                }),
+                                SizedBox(height: 10.0),
+                                Observer(builder: (_) {
+                                  return TextField(
+                                    enabled: !loginStore.loading,
+                                    decoration: InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.purple,
+                                        ),
+                                      ),
+                                      hintText: "Senha",
+                                      errorText: loginStore.passwordError,
+                                    ),
+                                    obscureText: true,
+                                    onChanged: loginStore.setPassword,
+                                  );
+                                }),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ReplaceFlatButton(
+                                    onPressed: () {
+                                      if (!loginStore.emailValid) {
+                                        onFail(
+                                            errorMsg:
+                                                "Insira um e-mail válido para recuperar a senha",
+                                            error: true);
+                                      } else {
+                                        onFail(
+                                            errorMsg: "Confira seu e-mail!",
+                                            error: false);
+                                      }
+                                    },
+                                    padding: EdgeInsets.zero,
+                                    child: Text("Esqueci minha senha",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: AppColors.purple)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Observer(builder: (_) {
+                  if (animationStatus == 0)
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 70.0),
+                      child: InkWell(
+                        onTap: () {
+                          if (loginStore.isFormValid) {
+                            loginStore.loginPressed();
+                            onSuccess();
+                          } else
+                            return null;
+                        },
+                        child: CustomButton("Entrar"),
+                      ),
+                    );
+                  return StaggerAnimation(
+                      buttonController: loginButtonController.view);
+                }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Não possui conta?", style: TextStyle(fontSize: 14.0)),
+                    ReplaceFlatButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SignUpScreen()));
+                      },
+                      child: Text("Criar Conta",
+                          style: TextStyle(
+                              fontSize: 14.0, color: AppColors.purple)),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          ],
+        ));
+  }
+
+  void onSuccess() {
+    setState(() {
+      animationStatus = 1;
+    });
+    playAnimation();
+  }
+
+  void onFail({@required String errorMsg, @required bool error}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        errorMsg,
+        textAlign: TextAlign.center,
       ),
-    );
+      backgroundColor:
+          (error) ? Colors.redAccent : Theme.of(context).primaryColor,
+      duration: Duration(seconds: 2),
+    ));
   }
 }

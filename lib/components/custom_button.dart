@@ -9,7 +9,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: 320.0,
-        height: 60.0,
+        height: 50.0,
         alignment: FractionalOffset.center,
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontSize: 20.0,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w600,
             letterSpacing: 0.3,
           ),
         ));

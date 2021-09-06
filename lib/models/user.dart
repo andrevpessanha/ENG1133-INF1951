@@ -14,10 +14,10 @@ class User {
   String password;
   String photo;
   DateTime createdAt;
-  double score;
+  num score;
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, email: $email, password: $password, createdAt: $createdAt, score: $score}';
+    return 'User{id: $id, name: $name, email: $email, createdAt: $createdAt, score: $score}';
   }
 }

@@ -32,6 +32,9 @@ abstract class _LoginStore with Store {
       password == null || passwordValid ? null : 'Senha inválida';
 
   @computed
+  bool get isFormValid => emailValid && passwordValid;
+
+  @computed
   Function get loginPressed =>
       emailValid && passwordValid && !loading ? _login : null;
 

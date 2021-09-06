@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: Colors.white,
         textSelectionTheme:
-            TextSelectionThemeData(cursorColor: AppColors.purple),
+            TextSelectionThemeData(cursorColor: AppColors.black),
       ),
       home: SplashScreen(),
     );

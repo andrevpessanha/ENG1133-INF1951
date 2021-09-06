@@ -1,6 +1,5 @@
 import 'package:agile_unify/models/user.dart';
 import 'package:agile_unify/repositories/user_repository.dart';
-import 'package:agile_unify/stores/page_store.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:agile_unify/helpers/extensions.dart';

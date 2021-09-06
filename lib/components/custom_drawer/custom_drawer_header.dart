@@ -1,4 +1,5 @@
 import 'package:agile_unify/core/app_colors.dart';
+import 'package:agile_unify/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:agile_unify/screens/login/login_screen.dart';
@@ -44,14 +45,14 @@ class CustomDrawerHeader extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: userManagerStore.isLoggedIn
-                                  ? userManagerStore.user.photo != ""
+                                  ? userManagerStore.user.photo != null
                                       ? NetworkImage(
                                           userManagerStore.user.photo)
-                                      : AssetImage("assets/images/user.png")
-                                  : AssetImage("assets/images/user.png"),
+                                      : AssetImage(AppImages.userWhiteIcon)
+                                  : AssetImage(AppImages.userWhiteIcon),
                             )),
                       ),
-                      SizedBox(height: 5.0),
+                      SizedBox(height: 10.0),
                       Text(
                           !userManagerStore.isLoggedIn
                               ? "Olá, seja bem-vindo!"
