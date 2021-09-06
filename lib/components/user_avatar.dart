@@ -14,8 +14,8 @@ class UserAvatar extends StatelessWidget {
         alignment: Alignment.center,
         child: Observer(builder: (_) {
           return Container(
-            width: 40.0,
-            height: 40.0,
+            width: 35.0,
+            height: 35.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.transparent,

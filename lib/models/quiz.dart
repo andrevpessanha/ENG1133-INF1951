@@ -8,6 +8,8 @@ class Quiz {
     this.category,
     this.questionsJsonUrl,
     this.questions,
+    this.qtdCompleted,
+    this.score,
   });
 
   final String id;
@@ -15,4 +17,6 @@ class Quiz {
   final Category category;
   final String questionsJsonUrl;
   List<Question> questions;
+  final num qtdCompleted;
+  final num score;
 }

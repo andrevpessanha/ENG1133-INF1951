@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class User {
   User(
       {this.id,
@@ -8,7 +6,8 @@ class User {
       this.password,
       this.photo,
       this.createdAt,
-      this.score});
+      this.score,
+      this.completedQuizzes});
 
   String id;
   String name;
@@ -17,6 +16,7 @@ class User {
   String photo;
   DateTime createdAt;
   num score;
+  num completedQuizzes;
 
   @override
   String toString() {

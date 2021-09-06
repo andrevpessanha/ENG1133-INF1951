@@ -68,4 +68,21 @@ class QuizRepository {
       return Future.error('Falha ao obter JSON');
     }
   }
+
+  Future<void> incrementQtdCompleted(Quiz quiz) async {
+    final ParseCloudFunction function =
+        ParseCloudFunction('quizIncrementQtdCompleted');
+    final Map<String, String> params = <String, String>{'id': quiz.id};
+
+    try {
+      final ParseResponse parseResponse =
+          await function.execute(parameters: params);
+      if (!parseResponse.success) {
+        return Future.error(
+            ParseErrors.getDescription(parseResponse.error.code));
+      }
+    } catch (error) {
+      Future.error('Falha ao incrementar quantidade');
+    }
+  }
 }

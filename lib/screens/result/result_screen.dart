@@ -1,15 +1,34 @@
 import 'package:agile_unify/screens/base/base_screen.dart';
 import 'package:agile_unify/screens/quiz/components/next_button.dart';
+import 'package:agile_unify/stores/home_store.dart';
+import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'package:agile_unify/core/core.dart';
+import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ResultScreen extends StatelessWidget {
+class ResultScreen extends StatefulWidget {
   final String title;
   final int length;
   final int result;
 
   const ResultScreen({this.title, this.length, this.result});
+
+  @override
+  _ResultScreenState createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends State<ResultScreen> {
+  final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+  final HomeStore homeStore = GetIt.I<HomeStore>();
+
+  @override
+  void initState() {
+    super.initState();
+    //homeStore.incrementQtdCompleted();
+    //userManagerStore.incrementQtdCompletedQuizzes();
+    final score = widget.result / widget.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +55,12 @@ class ResultScreen extends StatelessWidget {
                     style: AppTextStyles.body,
                     children: [
                       TextSpan(
-                        text: '\n$title',
+                        text: '\n${widget.title}',
                         style: AppTextStyles.bodyBold,
                       ),
                       TextSpan(
-                        text: '\nPontuação: $result / $length acertos.',
+                        text:
+                            '\nPontuação: ${widget.result} / ${widget.length} acertos.',
                         style: AppTextStyles.body,
                       ),
                     ],

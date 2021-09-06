@@ -9,6 +9,7 @@ class UserRepository {
 
     parseUser.set<String>(keyUserName, user.name);
     parseUser.set<num>(keyUserScore, 0.0);
+    parseUser.set<num>(keyUserQtdCompletedQuizzes, 0);
     if (user.photo != null) parseUser.set<String>(keyUserPhoto, user.photo);
 
     final response = await parseUser.signUp();
@@ -94,5 +95,22 @@ class UserRepository {
     final ParseResponse parseResponse = await user.requestPasswordReset();
     if (!parseResponse.success)
       return Future.error(ParseErrors.getDescription(parseResponse.error.code));
+  }
+
+  Future<void> userIncrementQtdCompletedQuizzes(User user) async {
+    final ParseCloudFunction function =
+        ParseCloudFunction('userIncrementQtdCompletedQuizzes');
+    final Map<String, String> params = <String, String>{'id': user.id};
+
+    try {
+      final ParseResponse parseResponse =
+          await function.execute(parameters: params);
+      if (!parseResponse.success) {
+        return Future.error(
+            ParseErrors.getDescription(parseResponse.error.code));
+      }
+    } catch (error) {
+      Future.error('Falha ao incrementar quantidade');
+    }
   }
 }

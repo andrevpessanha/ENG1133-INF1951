@@ -91,12 +91,11 @@ abstract class _HomeStore with Store {
   @computed
   bool get showProgress => loading && quizList.isEmpty;
 
-  // void incrementViews(Ad ad) {
-  //   try {
-  //     AdRepository().incrementViews(ad);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
+  void incrementQtdCompleted() {
+    try {
+      QuizRepository().incrementQtdCompleted(selectedQuiz);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

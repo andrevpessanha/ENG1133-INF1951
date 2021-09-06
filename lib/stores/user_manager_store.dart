@@ -37,4 +37,12 @@ abstract class _UserManagerStore with Store {
     await UserRepository().logout();
     setUser(null);
   }
+
+  void incrementQtdCompletedQuizzes() {
+    try {
+      UserRepository().userIncrementQtdCompletedQuizzes(user);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
