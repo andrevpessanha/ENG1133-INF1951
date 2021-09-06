@@ -16,7 +16,6 @@ class QuizRepository {
     return Quiz(
       id: object.objectId,
       title: object.get<String>(keyQuizTitle),
-      description: object.get<String>(keyQuizDescription),
       category: CategoryRepository()
           .mapParseToCategory(object.get<ParseObject>(keyQuizCategory)),
       questionsJsonUrl: jsonFile.url,

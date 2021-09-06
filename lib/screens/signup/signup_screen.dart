@@ -2,17 +2,17 @@ import 'dart:io';
 
 import 'package:agile_unify/components/custom_button.dart';
 import 'package:agile_unify/components/error_box.dart';
+import 'package:agile_unify/components/image_source_modal.dart';
 import 'package:agile_unify/components/replace_flatbutton.dart';
 import 'package:agile_unify/core/core.dart';
 import 'package:agile_unify/core/button_animation.dart';
 import 'package:agile_unify/stores/signup_store.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:mobx/mobx.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -23,7 +23,6 @@ class _SignUpScreenState extends State<SignUpScreen>
     with SingleTickerProviderStateMixin {
   final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
   final SignupStore signupStore = SignupStore();
-  File userFoto;
 
   AnimationController signupButtonController;
   var animationStatus = 0;
@@ -57,6 +56,11 @@ class _SignUpScreenState extends State<SignUpScreen>
     super.dispose();
   }
 
+  void onImageSelected(File image) {
+    signupStore.setPhoto(image);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,26 +89,42 @@ class _SignUpScreenState extends State<SignUpScreen>
                             );
                           }),
                           SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () {
-                              editarFoto(context);
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 85.0),
-                              width: 140.0,
-                              height: 140.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.transparent,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: userFoto != null
-                                      ? FileImage(File(userFoto.path))
-                                      : AssetImage(AppImages.userPurpleIcon),
-                                ),
-                              ),
-                            ),
-                          ),
+                          GestureDetector(onTap: () {
+                            if (Platform.isAndroid) {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (_) =>
+                                    ImageSourceModal(onImageSelected),
+                              );
+                            } else {
+                              showCupertinoModalPopup(
+                                context: context,
+                                builder: (_) =>
+                                    ImageSourceModal(onImageSelected),
+                              );
+                            }
+                          }, child: Observer(builder: (_) {
+                            if (signupStore.userPhoto == null)
+                              return CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 55,
+                                  backgroundImage:
+                                      AssetImage(AppImages.userPurpleIcon));
+                            else if (signupStore.userPhoto is File)
+                              return CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: 55,
+                                backgroundImage:
+                                    FileImage(signupStore.userPhoto),
+                              );
+
+                            return CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: 55,
+                              backgroundImage:
+                                  NetworkImage(signupStore.userPhoto.path),
+                            );
+                          })),
                           SizedBox(height: 10.0),
                           Observer(builder: (_) {
                             return TextField(
@@ -233,58 +253,5 @@ class _SignUpScreenState extends State<SignUpScreen>
           (error) ? Colors.redAccent : Theme.of(context).primaryColor,
       duration: Duration(seconds: 2),
     ));
-  }
-
-  void editarFoto(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return BottomSheet(
-              onClosing: () {},
-              builder: (context) {
-                return Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      TextButton(
-                        child: Text(
-                          "Tirar Foto",
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                        onPressed: () {
-                          // Navigator.pop(context);
-                          // ImagePicker.pickImage(source: ImageSource.camera)
-                          //     .then((file) {
-                          //   if (file == null) return;
-                          //   setState(() {
-                          //     userFoto = file;
-                          //   });
-                          // });
-                        },
-                      ),
-                      Divider(),
-                      TextButton(
-                        child: Text(
-                          "Abrir Galeria",
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                        onPressed: () {
-                          // Navigator.pop(context);
-                          // ImagePicker.pickImage(
-                          //         source: ImageSource.gallery, maxWidth: 1920)
-                          //     .then((file) {
-                          //   if (file == null) return;
-                          //   setState(() {
-                          //     userFoto = file;
-                          //   });
-                          // });
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              });
-        });
   }
 }

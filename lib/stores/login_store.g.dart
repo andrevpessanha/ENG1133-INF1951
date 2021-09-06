@@ -23,6 +23,13 @@ mixin _$LoginStore on _LoginStore, Store {
       (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
               name: '_LoginStore.passwordValid'))
           .value;
+  Computed<bool> _$isFormValidComputed;
+
+  @override
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_LoginStore.isFormValid'))
+          .value;
   Computed<Function> _$loginPressedComputed;
 
   @override
@@ -131,6 +138,7 @@ loading: ${loading},
 error: ${error},
 emailValid: ${emailValid},
 passwordValid: ${passwordValid},
+isFormValid: ${isFormValid},
 loginPressed: ${loginPressed}
     ''';
   }

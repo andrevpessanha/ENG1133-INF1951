@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
           SizedBox(height: 40),
           RefreshProgressIndicator(
               semanticsLabel: 'Carregando...',
-              strokeWidth: 6,
+              strokeWidth: 2.0,
               valueColor: AlwaysStoppedAnimation(AppColors.yellow),
               backgroundColor: Color(0xFF222831)),
         ],

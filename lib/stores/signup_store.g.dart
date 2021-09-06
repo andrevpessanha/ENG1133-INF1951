@@ -51,6 +51,21 @@ mixin _$SignupStore on _SignupStore, Store {
               name: '_SignupStore.signUpPressed'))
           .value;
 
+  final _$userPhotoAtom = Atom(name: '_SignupStore.userPhoto');
+
+  @override
+  File get userPhoto {
+    _$userPhotoAtom.reportRead();
+    return super.userPhoto;
+  }
+
+  @override
+  set userPhoto(File value) {
+    _$userPhotoAtom.reportWrite(value, super.userPhoto, () {
+      super.userPhoto = value;
+    });
+  }
+
   final _$nameAtom = Atom(name: '_SignupStore.name');
 
   @override
@@ -151,6 +166,17 @@ mixin _$SignupStore on _SignupStore, Store {
   final _$_SignupStoreActionController = ActionController(name: '_SignupStore');
 
   @override
+  void setPhoto(dynamic image) {
+    final _$actionInfo = _$_SignupStoreActionController.startAction(
+        name: '_SignupStore.setPhoto');
+    try {
+      return super.setPhoto(image);
+    } finally {
+      _$_SignupStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setName(String value) {
     final _$actionInfo = _$_SignupStoreActionController.startAction(
         name: '_SignupStore.setName');
@@ -208,6 +234,7 @@ mixin _$SignupStore on _SignupStore, Store {
   @override
   String toString() {
     return '''
+userPhoto: ${userPhoto},
 name: ${name},
 email: ${email},
 pass1: ${pass1},

@@ -1,3 +1,4 @@
+import 'package:agile_unify/components/user_avatar.dart';
 import 'package:agile_unify/core/app_colors.dart';
 import 'package:agile_unify/screens/home/components/quiz_card.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
@@ -29,6 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Simulados'),
           centerTitle: true,
+          actions: <Widget>[
+            UserAvatar(),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

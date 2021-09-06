@@ -9,6 +9,7 @@ class UserRepository {
 
     parseUser.set<String>(keyUserName, user.name);
     parseUser.set<num>(keyUserScore, 0.0);
+    if (user.photo != null) parseUser.set<String>(keyUserPhoto, user.photo);
 
     final response = await parseUser.signUp();
 

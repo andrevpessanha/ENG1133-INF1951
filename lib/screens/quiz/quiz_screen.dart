@@ -1,7 +1,7 @@
 import 'package:agile_unify/core/app_colors.dart';
 import 'package:agile_unify/screens/quiz/components/next_button.dart';
 import 'package:agile_unify/screens/quiz/components/question_indicator.dart';
-import 'package:agile_unify/screens/quiz/quiz_controller.dart';
+import 'package:agile_unify/screens/quiz/question_controller.dart';
 import 'package:agile_unify/screens/result/result_screen.dart';
 import 'package:agile_unify/stores/home_store.dart';
 import 'package:agile_unify/stores/quiz_store.dart';
@@ -21,7 +21,7 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   final QuizStore quizStore = GetIt.I<QuizStore>();
   final HomeStore homeStore = GetIt.I<HomeStore>();
-  final controller = QuizController();
+  final controller = QuestionController();
   final pageController = PageController();
 
   @override

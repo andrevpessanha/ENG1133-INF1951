@@ -23,8 +23,6 @@ const String keyCourseUrl = 'url';
 const String keyQuizTable = 'Quiz';
 const String keyQuizId = keyFieldId;
 const String keyQuizTitle = 'title';
-const String keyQuizDescription = 'description';
-const String keyQuizImage = 'image';
 const String keyQuizCategory = 'category';
 const String keyQuizQuestions = 'questions';
 

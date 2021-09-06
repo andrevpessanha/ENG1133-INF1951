@@ -1,15 +1,24 @@
+import 'dart:io';
+
 import 'package:agile_unify/models/user.dart';
 import 'package:agile_unify/repositories/user_repository.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:agile_unify/helpers/extensions.dart';
 import 'package:mobx/mobx.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 part 'signup_store.g.dart';
 
 class SignupStore = _SignupStore with _$SignupStore;
 
 abstract class _SignupStore with Store {
+  @observable
+  File userPhoto;
+
+  @action
+  void setPhoto(image) => userPhoto = image;
+
   @observable
   String name;
 
@@ -95,7 +104,26 @@ abstract class _SignupStore with Store {
   Future<void> _signUp() async {
     loading = true;
 
-    final user = User(name: name, email: email, password: pass1);
+    var user;
+
+    if (userPhoto != null) {
+      ParseFileBase parseFile =
+          ParseFile(File(userPhoto.path), name: 'user.jpg');
+      await parseFile.save();
+      print('PARSE FILE SAVED');
+      user = User(
+        name: name,
+        email: email,
+        password: pass1,
+        photo: parseFile.url,
+      );
+    } else {
+      user = User(
+        name: name,
+        email: email,
+        password: pass1,
+      );
+    }
 
     try {
       final resultUser = await UserRepository().signUp(user);
