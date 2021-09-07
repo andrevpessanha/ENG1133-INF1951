@@ -10,19 +10,8 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:agile_unify/repositories/table_keys.dart';
 
 class QuizRepository {
-  Quiz mapParseToQuiz(ParseObject object) {
-    final jsonFile = object.get<ParseFileBase>(keyQuizQuestions);
-
-    return Quiz(
-      id: object.objectId,
-      title: object.get<String>(keyQuizTitle),
-      category: CategoryRepository()
-          .mapParseToCategory(object.get<ParseObject>(keyQuizCategory)),
-      questionsJsonUrl: jsonFile.url,
-    );
-  }
-
-  Future<List<Quiz>> getHomeQuizList({Category category, int page}) async {
+  Future<List<Quiz>> getHomeQuizList(
+      {Category category, int page, Map<String, dynamic> userData}) async {
     try {
       final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyQuizTable));
 
@@ -32,6 +21,7 @@ class QuizRepository {
       queryBuilder.setLimit(10);
 
       if (category != null && category.id != '*') {
+        print('CATEGORIA: ' + category.title);
         queryBuilder.whereEqualTo(
           keyQuizCategory,
           (ParseObject(keyCategoryTable)..set(keyCategoryId, category.id))
@@ -41,8 +31,12 @@ class QuizRepository {
 
       final response = await queryBuilder.query();
 
+      print('LENDO QUIZZES...');
+
       if (response.success && response.results != null) {
-        return response.results.map((po) => mapParseToQuiz(po)).toList();
+        return response.results
+            .map((po) => mapParseToQuiz(po, userData))
+            .toList();
       } else if (response.success && response.results == null) {
         return [];
       } else {
@@ -51,6 +45,27 @@ class QuizRepository {
     } catch (e) {
       return Future.error('Falha de conexão');
     }
+  }
+
+  Quiz mapParseToQuiz(ParseObject object, Map<String, dynamic> userData) {
+    final jsonFile = object.get<ParseFileBase>(keyQuizQuestions);
+
+    final double score = userData != null
+        ? userData[object.objectId] != null
+            ? userData[object.objectId]
+            : 0.0
+        : 0.0;
+
+    print(
+        'QUIZ ID: ' + object.objectId + ' SCORE: ' + score.toStringAsFixed(2));
+
+    return Quiz(
+        id: object.objectId,
+        title: object.get<String>(keyQuizTitle),
+        category: CategoryRepository()
+            .mapParseToCategory(object.get<ParseObject>(keyQuizCategory)),
+        questionsJsonUrl: jsonFile.url,
+        score: score);
   }
 
   Future<void> getQuizQuestions() async {

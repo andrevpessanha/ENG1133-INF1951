@@ -39,8 +39,8 @@ class CustomDrawerHeader extends StatelessWidget {
                     children: [
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 80.0),
-                        width: 70.0,
-                        height: 70.0,
+                        width: 75.0,
+                        height: 75.0,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.transparent,

@@ -144,24 +144,22 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ],
                 ),
-                Observer(builder: (_) {
-                  if (animationStatus == 0)
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 70.0),
-                      child: InkWell(
-                        onTap: () {
-                          if (loginStore.isFormValid) {
-                            loginStore.loginPressed();
-                            onSuccess();
-                          } else
-                            return null;
-                        },
-                        child: CustomButton("Entrar"),
-                      ),
-                    );
-                  return StaggerAnimation(
-                      buttonController: loginButtonController.view);
-                }),
+                animationStatus == 0
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 70.0),
+                        child: InkWell(
+                          onTap: () {
+                            if (loginStore.isFormValid) {
+                              loginStore.loginPressed();
+                              onSuccess();
+                            } else
+                              return null;
+                          },
+                          child: CustomButton("Entrar"),
+                        ),
+                      )
+                    : StaggerAnimation(
+                        buttonController: loginButtonController.view),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

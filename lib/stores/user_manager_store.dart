@@ -15,6 +15,12 @@ abstract class _UserManagerStore with Store {
   User user;
 
   @observable
+  final Map<String, dynamic> userQuizzesScore = {'*': 0.0};
+
+  @action
+  void updateUserQuizzesScore(index, score) => userQuizzesScore[index] = score;
+
+  @observable
   bool readyToFetchQuizzes;
 
   @action

@@ -20,11 +20,13 @@ class QuizCard extends StatelessWidget {
     final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
 
     final imagePath = {
-      'PSPO': 'assets/images/pspo-logo.png',
-      'PSM': 'assets/images/psm-logo.png',
-      'OKR': 'assets/images/okr-logo.png',
-      'Product Management': 'assets/images/pm-logo.png'
+      'PSPO': AppImages.pspo,
+      'PSM': AppImages.psm,
+      'OKR': AppImages.okr,
+      'Product Management': AppImages.pm
     };
+
+    double score = quiz.score * 100;
 
     return GestureDetector(
       onTap: () {
@@ -47,29 +49,19 @@ class QuizCard extends StatelessWidget {
         ),
         color: AppColors.white,
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(12),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    height: 70.0,
-                    width: 70.0,
-                    child: imagePath != null
-                        ? Image.asset(
-                            imagePath[quiz.category.title],
-                            fit: BoxFit.cover,
-                          )
-                        : Container(),
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    child: Image.asset('assets/images/check.png'),
-                  ),
-                ],
+              SizedBox(
+                height: 70.0,
+                //width: 100.0,
+                child: imagePath != null
+                    ? Image.asset(
+                        imagePath[quiz.category.title],
+                        fit: BoxFit.cover,
+                      )
+                    : Container(),
               ),
               SizedBox(height: 14),
               Text(
@@ -82,12 +74,14 @@ class QuizCard extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Text('0/2', style: AppTextStyles.body11),
-                  ),
-                  Expanded(
                     flex: 2,
-                    child: ProgressBar(value: 0.5),
+                    child: ProgressBar(value: quiz.score),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    flex: 1,
+                    child: Text(score.toStringAsFixed(0) + '%',
+                        style: AppTextStyles.body11),
                   ),
                 ],
               ),

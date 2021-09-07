@@ -18,5 +18,5 @@ class Quiz {
   final String questionsJsonUrl;
   List<Question> questions;
   final num qtdCompleted;
-  final num score;
+  double score;
 }

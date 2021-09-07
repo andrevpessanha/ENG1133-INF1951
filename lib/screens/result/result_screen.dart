@@ -27,7 +27,14 @@ class _ResultScreenState extends State<ResultScreen> {
     super.initState();
     //homeStore.incrementQtdCompleted();
     //userManagerStore.incrementQtdCompletedQuizzes();
+    print('RESULT: ' + widget.result.toString());
+    print('LENGTH: ' + widget.result.toString());
     final score = widget.result / widget.length;
+    print('NEW SCORE: ' + score.toStringAsFixed(2));
+    print('OLD SCORE: ' + homeStore.selectedQuiz.score.toStringAsFixed(2));
+    if (score > homeStore.selectedQuiz.score) {
+      homeStore.updateQuizScore(score);
+    }
   }
 
   @override
