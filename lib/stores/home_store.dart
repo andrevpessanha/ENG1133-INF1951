@@ -141,13 +141,11 @@ abstract class _HomeStore with Store {
     selectedQuiz.score = score;
     quizList[selectedQuizIndex].score = score;
 
-    print('ATUALIZANDO LISTA');
     userManagerStore.updateUserQuizzesScore(selectedQuiz.id, score);
-    print('SALVANDO NAS PREFERENCES');
+
     final preferences = await SharedPreferences.getInstance();
     preferences.setString(
         'USER_QUIZZES_SCORE', json.encode(userManagerStore.userQuizzesScore));
-    print('SALVOU NAS PREFERENCES');
   }
 
   void incrementQtdCompleted() {

@@ -37,8 +37,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
               onTap: (value) {
                 indexSelected = i;
                 setState(() {});
-                Future.delayed(Duration(seconds: 1))
-                    .then((_) => widget.onSelected(value));
+                widget.onSelected(value);
               },
             ),
         ],

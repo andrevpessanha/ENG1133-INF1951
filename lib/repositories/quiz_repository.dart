@@ -21,7 +21,6 @@ class QuizRepository {
       queryBuilder.setLimit(10);
 
       if (category != null && category.id != '*') {
-        print('CATEGORIA: ' + category.title);
         queryBuilder.whereEqualTo(
           keyQuizCategory,
           (ParseObject(keyCategoryTable)..set(keyCategoryId, category.id))
@@ -30,8 +29,6 @@ class QuizRepository {
       }
 
       final response = await queryBuilder.query();
-
-      print('LENDO QUIZZES...');
 
       if (response.success && response.results != null) {
         return response.results
