@@ -23,6 +23,21 @@ mixin _$HomeStore on _HomeStore, Store {
               name: '_HomeStore.showProgress'))
           .value;
 
+  final _$selectedQuizIndexAtom = Atom(name: '_HomeStore.selectedQuizIndex');
+
+  @override
+  int get selectedQuizIndex {
+    _$selectedQuizIndexAtom.reportRead();
+    return super.selectedQuizIndex;
+  }
+
+  @override
+  set selectedQuizIndex(int value) {
+    _$selectedQuizIndexAtom.reportWrite(value, super.selectedQuizIndex, () {
+      super.selectedQuizIndex = value;
+    });
+  }
+
   final _$selectedQuizAtom = Atom(name: '_HomeStore.selectedQuiz');
 
   @override
@@ -184,6 +199,7 @@ mixin _$HomeStore on _HomeStore, Store {
   @override
   String toString() {
     return '''
+selectedQuizIndex: ${selectedQuizIndex},
 selectedQuiz: ${selectedQuiz},
 category: ${category},
 error: ${error},

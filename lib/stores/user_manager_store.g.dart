@@ -52,6 +52,17 @@ mixin _$UserManagerStore on _UserManagerStore, Store {
       ActionController(name: '_UserManagerStore');
 
   @override
+  void updateUserScore(String quizID, double score, int qtdQuizzes) {
+    final _$actionInfo = _$_UserManagerStoreActionController.startAction(
+        name: '_UserManagerStore.updateUserScore');
+    try {
+      return super.updateUserScore(quizID, score, qtdQuizzes);
+    } finally {
+      _$_UserManagerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setReadyToFetchQuizzes(bool value) {
     final _$actionInfo = _$_UserManagerStoreActionController.startAction(
         name: '_UserManagerStore.setReadyToFetchQuizzes');

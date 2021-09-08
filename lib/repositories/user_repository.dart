@@ -72,9 +72,9 @@ class UserRepository {
     if (parseUser != null) {
       parseUser.set<String>(keyUserName, user.name);
 
-      if (user.password != null) {
-        parseUser.password = user.password;
-      }
+      if (user.password != null) parseUser.password = user.password;
+
+      if (user.photo != null) parseUser.set<String>(keyUserPhoto, user.photo);
 
       final response = await parseUser.save();
 

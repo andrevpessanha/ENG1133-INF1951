@@ -24,8 +24,6 @@ abstract class _HomeStore with Store {
       if (!userManagerStore.readyToFetchQuizzes) return;
       try {
         if (!firstRead) {
-          // Executa uma vez após iniciar o App
-
           if (userManagerStore.user?.quizzesScore != null) {
             await _updateHomeScreen(
                 newCategory, newPage, userManagerStore.user.quizzesScore);
@@ -59,10 +57,8 @@ abstract class _HomeStore with Store {
 
   ObservableList<Quiz> quizList = ObservableList<Quiz>();
 
-  @observable
   bool firstRead = false;
 
-  @action
   void setFirstRead(bool value) => firstRead = value;
 
   @observable

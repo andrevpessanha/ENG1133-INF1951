@@ -1,4 +1,5 @@
 import 'package:agile_unify/screens/base/base_screen.dart';
+import 'package:agile_unify/stores/page_store.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -126,6 +127,7 @@ class StaggerAnimation extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => BaseScreen()),
         );
+        GetIt.I<PageStore>().setPage(0);
       }
     });
     return AnimatedBuilder(

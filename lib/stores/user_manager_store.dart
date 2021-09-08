@@ -39,10 +39,14 @@ abstract class _UserManagerStore with Store {
 
   @action
   void setUser(User value) {
+    final HomeStore homeStore = GetIt.I<HomeStore>();
     print('SET USER');
     user = value;
-    print('RESET PAGE');
-    GetIt.I<HomeStore>().resetPage();
+
+    if (homeStore.firstRead) {
+      print('RESET PAGE');
+      homeStore.resetPage();
+    }
   }
 
   @computed

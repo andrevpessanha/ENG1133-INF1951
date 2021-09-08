@@ -16,9 +16,8 @@ class PageSection extends StatelessWidget {
         if (pageStore.page != page) pageStore.setPage(page);
         Navigator.of(context).pop();
       } else {
-        final result = await Navigator.of(context)
+        await Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => LoginScreen()));
-        if (result != null && result) pageStore.setPage(page);
       }
     }
 
@@ -52,7 +51,9 @@ class PageSection extends StatelessWidget {
         PageTile(
           label: 'Minha Conta',
           iconData: Icons.person,
-          onTap: () {},
+          onTap: () {
+            verifyLoginAndSetPage(3);
+          },
           highlighted: pageStore.page == 3,
         ),
         userManagerStore.isLoggedIn
@@ -65,7 +66,7 @@ class PageSection extends StatelessWidget {
                       userManagerStore.logout();
                       Navigator.of(context).pop();
                     },
-                    highlighted: pageStore.page == 5,
+                    highlighted: pageStore.page == 4,
                   ),
                 ],
               )

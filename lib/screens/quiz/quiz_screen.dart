@@ -82,7 +82,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 );
 
               return Container(
-                height: 420,
+                height: 480,
                 child: PageView(
                   physics: NeverScrollableScrollPhysics(),
                   controller: pageController,

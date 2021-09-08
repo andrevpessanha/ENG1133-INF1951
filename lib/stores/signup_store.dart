@@ -110,7 +110,7 @@ abstract class _SignupStore with Store {
       ParseFileBase parseFile =
           ParseFile(File(userPhoto.path), name: 'user.jpg');
       await parseFile.save();
-      print('PARSE FILE SAVED');
+
       user = User(
         name: name,
         email: email,

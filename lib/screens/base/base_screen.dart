@@ -1,5 +1,6 @@
 import 'package:agile_unify/screens/course/accessible_courses_screen.dart';
 import 'package:agile_unify/screens/course/free_courses_screen.dart';
+import 'package:agile_unify/screens/edit/edit_screen.dart';
 import 'package:agile_unify/screens/home/home_screen.dart';
 import 'package:agile_unify/screens/offline/offline_screen.dart';
 import 'package:agile_unify/stores/connectivity_store.dart';
@@ -45,9 +46,7 @@ class _BaseScreenState extends State<BaseScreen> {
           HomeScreen(),
           AccessibleCoursesScreen(),
           FreeCoursesScreen(),
-          Container(
-            color: Colors.purple,
-          ),
+          EditScreen(),
         ],
       ),
     );
