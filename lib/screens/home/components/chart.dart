@@ -17,7 +17,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
 
   void initAnimation() {
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 4));
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
     _animation =
         Tween<double>(begin: 0.0, end: widget.percent).animate(_controller);
     _controller.forward();

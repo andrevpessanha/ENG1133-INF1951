@@ -57,12 +57,13 @@ class QuizRepository {
         'QUIZ ID: ' + object.objectId + ' SCORE: ' + score.toStringAsFixed(2));
 
     return Quiz(
-        id: object.objectId,
-        title: object.get<String>(keyQuizTitle),
-        category: CategoryRepository()
-            .mapParseToCategory(object.get<ParseObject>(keyQuizCategory)),
-        questionsJsonUrl: jsonFile.url,
-        score: score);
+      id: object.objectId,
+      title: object.get<String>(keyQuizTitle),
+      category: CategoryRepository()
+          .mapParseToCategory(object.get<ParseObject>(keyQuizCategory)),
+      questionsJsonUrl: jsonFile.url,
+      score: score,
+    );
   }
 
   Future<void> getQuizQuestions() async {

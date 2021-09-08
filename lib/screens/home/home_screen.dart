@@ -42,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (userManagerStore.isLoggedIn)
                   return Align(
                     alignment: Alignment(0.0, 1.0),
-                    child: ScoreCard(percent: 0.85),
+                    child: ScoreCard(
+                        percent: userManagerStore.user.score.toDouble()),
                   );
                 return Align(
                   alignment: Alignment(0.0, 1.0),

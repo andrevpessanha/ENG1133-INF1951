@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:agile_unify/models/user.dart';
 import 'package:agile_unify/repositories/user_repository.dart';
+
+import 'home_store.dart';
 
 part 'user_manager_store.g.dart';
 
@@ -14,12 +19,16 @@ abstract class _UserManagerStore with Store {
   @observable
   User user;
 
-  @observable
-  final Map<String, dynamic> userQuizzesScore = {'*': 0.0};
-
   @action
-  void updateUserQuizzesScore(String index, double score) {
-    userQuizzesScore.update(index, (value) => score, ifAbsent: () => score);
+  void updateUserScore(String quizID, double score, int qtdQuizzes) {
+    user.quizzesScore.update(quizID, (value) => score, ifAbsent: () => score);
+    if (score == 1.0) {
+      user.qtdUniqueCompletedQuizzes++;
+      user.score = user.qtdUniqueCompletedQuizzes / qtdQuizzes;
+    }
+
+    String jsonQuizzesScore = json.encode(user.quizzesScore);
+    UserRepository().updateUserScore(user, score, jsonQuizzesScore);
   }
 
   @observable
@@ -29,7 +38,12 @@ abstract class _UserManagerStore with Store {
   setReadyToFetchQuizzes(bool value) => readyToFetchQuizzes = value;
 
   @action
-  void setUser(User value) => user = value;
+  void setUser(User value) {
+    print('SET USER');
+    user = value;
+    print('RESET PAGE');
+    GetIt.I<HomeStore>().resetPage();
+  }
 
   @computed
   bool get isLoggedIn => user != null;

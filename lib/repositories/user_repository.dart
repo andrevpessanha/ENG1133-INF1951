@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:agile_unify/models/user.dart';
 import 'package:agile_unify/repositories/parse_errors.dart';
 import 'package:agile_unify/repositories/table_keys.dart';
@@ -48,12 +50,18 @@ class UserRepository {
   }
 
   User mapParseToUser(ParseUser parseUser) {
+    String jsonQuizzesScore = parseUser.get(keyUserQuizzesScore);
+
     return User(
       id: parseUser.objectId,
       name: parseUser.get(keyUserName),
       email: parseUser.get(keyUserEmail),
       photo: parseUser.get(keyUserPhoto),
       score: parseUser.get(keyUserScore),
+      quizzesScore:
+          jsonQuizzesScore != null ? json.decode(jsonQuizzesScore) : {'*': 0.0},
+      qtdUniqueCompletedQuizzes:
+          parseUser.get(keyUserQtdUniqueCompletedQuizzes),
       createdAt: parseUser.get(keyUserCreatedAt),
     );
   }
@@ -95,6 +103,26 @@ class UserRepository {
     final ParseResponse parseResponse = await user.requestPasswordReset();
     if (!parseResponse.success)
       return Future.error(ParseErrors.getDescription(parseResponse.error.code));
+  }
+
+  Future<void> updateUserScore(
+      User user, double score, String jsonQuizzesScore) async {
+    final ParseUser parseUser = await ParseUser.currentUser();
+
+    if (parseUser != null) {
+      parseUser.set<String>(keyUserQuizzesScore, jsonQuizzesScore);
+
+      if (score == 1.0) {
+        parseUser.set<num>(
+            keyUserQtdUniqueCompletedQuizzes, user.qtdUniqueCompletedQuizzes);
+        parseUser.set<num>(keyUserScore, user.score);
+      }
+
+      final response = await parseUser.save();
+
+      if (!response.success)
+        return Future.error(ParseErrors.getDescription(response.error.code));
+    }
   }
 
   Future<void> userIncrementQtdCompletedQuizzes(User user) async {

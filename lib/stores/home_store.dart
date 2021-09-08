@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:agile_unify/models/category.dart';
 import 'package:agile_unify/models/quiz.dart';
 import 'package:agile_unify/repositories/quiz_repository.dart';
@@ -7,7 +5,6 @@ import 'package:agile_unify/stores/connectivity_store.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'home_store.g.dart';
 
@@ -24,41 +21,24 @@ abstract class _HomeStore with Store {
       final newCategory = category;
       final newPage = page;
 
-      print('INICIOU LEITURA');
       if (!userManagerStore.readyToFetchQuizzes) return;
       try {
-        if (!hasReadUserPreferences) {
+        if (!firstRead) {
           // Executa uma vez após iniciar o App
-          print('LENDO USER PREFERENCES');
-          final preferences = await SharedPreferences.getInstance();
-          if (preferences.containsKey('USER_QUIZZES_SCORE')) {
-            print('TEM DADOS');
-            final userData = json.decode(preferences.get('USER_QUIZZES_SCORE'));
-            final newQuizzes = await QuizRepository().getHomeQuizList(
-              category: newCategory,
-              page: newPage,
-              userData: userData,
-            );
-            addNewQuizzes(newQuizzes);
 
-            setHasReadUserPreferences(true);
+          if (userManagerStore.user?.quizzesScore != null) {
+            await _updateHomeScreen(
+                newCategory, newPage, userManagerStore.user.quizzesScore);
           } else {
-            print('SEM DADOS');
-            final newQuizzes = await QuizRepository().getHomeQuizList(
-              category: newCategory,
-              page: newPage,
-            );
-            addNewQuizzes(newQuizzes);
+            await _updateHomeScreen(newCategory, newPage, null);
           }
+
+          setFirstRead(true);
         } else {
-          print('LEITURA DEFAULT');
-          final newQuizzes = await QuizRepository().getHomeQuizList(
-            category: newCategory,
-            page: newPage,
-          );
-          addNewQuizzes(newQuizzes);
+          await _updateHomeScreen(newCategory, newPage,
+              userManagerStore.user?.quizzesScore ?? null);
         }
-        print('CONCLUIU LEITURA');
+
         setError(null);
         setLoading(false);
       } catch (e) {
@@ -67,13 +47,23 @@ abstract class _HomeStore with Store {
     });
   }
 
+  Future<void> _updateHomeScreen(
+      Category category, int page, Map<String, dynamic> userData) async {
+    final newQuizzes = await QuizRepository().getHomeQuizList(
+      category: category,
+      page: page,
+      userData: userData,
+    );
+    addNewQuizzes(newQuizzes);
+  }
+
   ObservableList<Quiz> quizList = ObservableList<Quiz>();
 
   @observable
-  bool hasReadUserPreferences = false;
+  bool firstRead = false;
 
   @action
-  void setHasReadUserPreferences(bool value) => hasReadUserPreferences = value;
+  void setFirstRead(bool value) => firstRead = value;
 
   @observable
   int selectedQuizIndex = 0;
@@ -137,15 +127,11 @@ abstract class _HomeStore with Store {
   @computed
   bool get showProgress => loading && quizList.isEmpty;
 
-  Future<void> updateQuizScore(double score) async {
+  Future<void> updateUserScore(double score) async {
     selectedQuiz.score = score;
     quizList[selectedQuizIndex].score = score;
 
-    userManagerStore.updateUserQuizzesScore(selectedQuiz.id, score);
-
-    final preferences = await SharedPreferences.getInstance();
-    preferences.setString(
-        'USER_QUIZZES_SCORE', json.encode(userManagerStore.userQuizzesScore));
+    userManagerStore.updateUserScore(selectedQuiz.id, score, quizList.length);
   }
 
   void incrementQtdCompleted() {

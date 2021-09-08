@@ -1,4 +1,5 @@
 import 'package:agile_unify/repositories/user_repository.dart';
+import 'package:agile_unify/stores/home_store.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:agile_unify/helpers/extensions.dart';
 import 'package:get_it/get_it.dart';
@@ -9,6 +10,8 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
+  //final HomeStore homeStore = GetIt.I<HomeStore>();
+
   @observable
   String email;
 
@@ -52,6 +55,7 @@ abstract class _LoginStore with Store {
     try {
       final user = await UserRepository().loginWithEmail(email, password);
       GetIt.I<UserManagerStore>().setUser(user);
+      //if (homeStore.firstRead) homeStore.resetPage();
     } catch (e) {
       error = e;
     }

@@ -6,8 +6,9 @@ class User {
       this.password,
       this.photo,
       this.createdAt,
+      this.quizzesScore,
       this.score,
-      this.completedQuizzes});
+      this.qtdUniqueCompletedQuizzes});
 
   String id;
   String name;
@@ -15,11 +16,12 @@ class User {
   String password;
   String photo;
   DateTime createdAt;
-  num score;
-  num completedQuizzes;
+  Map<String, dynamic> quizzesScore;
+  num score = 0.0;
+  int qtdUniqueCompletedQuizzes = 0;
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, email: $email, createdAt: $createdAt, score: $score}';
+    return 'User{id: $id, name: $name, email: $email, createdAt: $createdAt, score: $score, uniqueCompletedQuizzes: $qtdUniqueCompletedQuizzes}';
   }
 }

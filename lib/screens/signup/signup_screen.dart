@@ -197,24 +197,22 @@ class _SignUpScreenState extends State<SignUpScreen>
                     ),
                   ],
                 ),
-                Observer(builder: (_) {
-                  if (animationStatus == 0)
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 60.0),
-                      child: InkWell(
-                        onTap: () {
-                          if (signupStore.isFormValid) {
-                            signupStore.signUpPressed();
-                            onSuccess();
-                          } else
-                            return null;
-                        },
-                        child: CustomButton("Cadastrar"),
-                      ),
-                    );
-                  return StaggerAnimation(
-                      buttonController: signupButtonController.view);
-                }),
+                animationStatus == 0
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 60.0),
+                        child: InkWell(
+                          onTap: () {
+                            if (signupStore.isFormValid) {
+                              signupStore.signUpPressed();
+                              onSuccess();
+                            } else
+                              return null;
+                          },
+                          child: CustomButton("Cadastrar"),
+                        ),
+                      )
+                    : StaggerAnimation(
+                        buttonController: signupButtonController.view),
                 SizedBox(height: 10.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
