@@ -29,11 +29,8 @@ class _ResultScreenState extends State<ResultScreen> {
     userManagerStore.incrementQtdCompletedQuizzes();
 
     final newScore = widget.result / widget.length;
-    if (newScore > homeStore.selectedQuiz.score) {
-      print('NOVO SCORE É MAIOR');
+    if (newScore > homeStore.selectedQuiz.score)
       homeStore.updateUserScore(newScore);
-    } else
-      print('NOVO SCORE É MENOR OU IGUAL');
   }
 
   @override

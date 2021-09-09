@@ -36,7 +36,8 @@ class PageSection extends StatelessWidget {
           label: 'Cursos Acessíveis',
           iconData: Icons.bolt,
           onTap: () {
-            verifyLoginAndSetPage(1);
+            if (pageStore.page != 1) pageStore.setPage(1);
+            Navigator.of(context).pop();
           },
           highlighted: pageStore.page == 1,
         ),
