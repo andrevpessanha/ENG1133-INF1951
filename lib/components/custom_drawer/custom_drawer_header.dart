@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:agile_unify/core/app_colors.dart';
 import 'package:agile_unify/core/core.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +37,8 @@ class CustomDrawerHeader extends StatelessWidget {
                     children: [
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 80.0),
-                        width: 75.0,
-                        height: 75.0,
+                        width: userManagerStore.isLoggedIn ? 80.0 : 75.0,
+                        height: userManagerStore.isLoggedIn ? 80.0 : 75.0,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.transparent,

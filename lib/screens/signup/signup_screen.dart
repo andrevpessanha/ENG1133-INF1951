@@ -249,7 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen>
       ),
       backgroundColor:
           (error) ? Colors.redAccent : Theme.of(context).primaryColor,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
     ));
   }
 }

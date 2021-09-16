@@ -120,9 +120,10 @@ class _LoginScreenState extends State<LoginScreen>
                                       if (!loginStore.emailValid) {
                                         onFail(
                                             errorMsg:
-                                                "Insira um e-mail válido para recuperar a senha",
+                                                "Informe um e-mail válido para recuperar a senha",
                                             error: true);
                                       } else {
+                                        loginStore.recoverPressed();
                                         onFail(
                                             errorMsg: "Confira seu e-mail!",
                                             error: false);
@@ -196,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen>
       ),
       backgroundColor:
           (error) ? Colors.redAccent : Theme.of(context).primaryColor,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
     ));
   }
 }

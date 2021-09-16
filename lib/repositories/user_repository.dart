@@ -101,8 +101,9 @@ class UserRepository {
   Future<void> recoverPassword(String email) async {
     final ParseUser user = ParseUser(email.toLowerCase(), '', email);
     final ParseResponse parseResponse = await user.requestPasswordReset();
-    if (!parseResponse.success)
+    if (!parseResponse.success) {
       return Future.error(ParseErrors.getDescription(parseResponse.error.code));
+    }
   }
 
   Future<void> updateUserScore(

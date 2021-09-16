@@ -1,5 +1,4 @@
 import 'package:agile_unify/repositories/user_repository.dart';
-import 'package:agile_unify/stores/home_store.dart';
 import 'package:agile_unify/stores/user_manager_store.dart';
 import 'package:agile_unify/helpers/extensions.dart';
 import 'package:get_it/get_it.dart';
@@ -10,8 +9,6 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-  //final HomeStore homeStore = GetIt.I<HomeStore>();
-
   @observable
   String email;
 
@@ -44,22 +41,49 @@ abstract class _LoginStore with Store {
   @observable
   bool loading = false;
 
+  @action
+  void setLoading(bool value) => loading = value;
+
   @observable
   String error;
 
   @action
+  void setError(String value) => error = value;
+
+  @action
   Future<void> _login() async {
-    loading = true;
+    setLoading(true);
     error = null;
 
     try {
       final user = await UserRepository().loginWithEmail(email, password);
       GetIt.I<UserManagerStore>().setUser(user);
-      //if (homeStore.firstRead) homeStore.resetPage();
     } catch (e) {
       error = e;
     }
 
-    loading = false;
+    setLoading(false);
+  }
+
+  @computed
+  Function get recoverPressed => (emailValid && !loading) ? _recover : null;
+
+  @observable
+  bool success = false;
+
+  @action
+  void setSuccess(bool value) => success = value;
+
+  Future<void> _recover() async {
+    setLoading(true);
+
+    try {
+      await UserRepository().recoverPassword(email);
+      setSuccess(true);
+    } catch (_) {
+      setError(error);
+    }
+
+    setLoading(false);
   }
 }
