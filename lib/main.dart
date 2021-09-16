@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
       title: 'Agile Unify',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        appBarTheme: AppBarTheme(color: AppColors.purple),
         primaryColor: AppColors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: Colors.white,
