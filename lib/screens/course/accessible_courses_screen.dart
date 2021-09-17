@@ -1,7 +1,6 @@
 import 'package:agile_unify/components/custom_drawer/custom_drawer.dart';
 import 'package:agile_unify/components/error_box.dart';
 import 'package:agile_unify/core/app_colors.dart';
-import 'package:agile_unify/core/app_gradients.dart';
 import 'package:agile_unify/stores/course_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
