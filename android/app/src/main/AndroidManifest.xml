@@ -2,7 +2,7 @@
     package="com.andrevpessanha.agile_unify">
    <application
         android:label="Agile Unify"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
