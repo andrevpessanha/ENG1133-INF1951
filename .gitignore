@@ -34,6 +34,9 @@
 # Server & API Keys
 /lib/repositories/server_keys.dart
 
+# Android Release Build Key 
+/android/key.properties
+
 # Web related
 lib/generated_plugin_registrant.dart
 
