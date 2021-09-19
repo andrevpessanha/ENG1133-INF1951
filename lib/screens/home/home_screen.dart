@@ -39,15 +39,22 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Observer(builder: (_) {
-                if (userManagerStore.isLoggedIn)
+                if (!homeStore.showProgress)
                   return Align(
                     alignment: Alignment(0.0, 1.0),
                     child: ScoreCard(
-                        percent: userManagerStore.user.score.toDouble()),
+                        percent: userManagerStore.isLoggedIn
+                            ? userManagerStore.user.score.toDouble()
+                            : 0.0),
                   );
-                return Align(
-                  alignment: Alignment(0.0, 1.0),
-                  child: ScoreCard(percent: 0),
+
+                return Container(
+                  height: 130,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(AppColors.purple),
+                    ),
+                  ),
                 );
               }),
               Observer(builder: (_) {

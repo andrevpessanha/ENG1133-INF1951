@@ -54,7 +54,7 @@ class QuizCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
-                height: 70.0,
+                height: 60.0, // era 70
                 //width: 100.0,
                 child: imagePath != null
                     ? Image.asset(

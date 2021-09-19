@@ -19,29 +19,32 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(widget.question.title, style: AppTextStyles.heading),
-          ),
-          SizedBox(height: 10),
-          for (var i = 0; i < widget.question.answers.length; i++)
-            AnswerCheck(
-              answer: widget.question.answers[i],
-              isRight: widget.question.correctAnswer == i,
-              isSelected: indexSelected == i,
-              disabled: indexSelected != -1,
-              onTap: (value) {
-                indexSelected = i;
-                setState(() {});
-                widget.onSelected(value);
-              },
+        child: ListView(
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(widget.question.title, style: AppTextStyles.heading),
             ),
-        ],
-      ),
-    );
+            SizedBox(height: 10),
+            for (var i = 0; i < widget.question.answers.length; i++)
+              AnswerCheck(
+                answer: widget.question.answers[i],
+                isRight: widget.question.correctAnswer == i,
+                isSelected: indexSelected == i,
+                disabled: indexSelected != -1,
+                onTap: (value) {
+                  indexSelected = i;
+                  setState(() {});
+                  widget.onSelected(value);
+                },
+              ),
+          ],
+        )
+      ],
+    ));
   }
 }

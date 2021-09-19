@@ -45,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen>
     super.initState();
 
     signupButtonController = new AnimationController(
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 1500),
       vsync: this,
     );
   }

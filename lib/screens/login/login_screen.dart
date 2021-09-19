@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen>
     super.initState();
 
     loginButtonController = new AnimationController(
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 1500),
       vsync: this,
     );
   }

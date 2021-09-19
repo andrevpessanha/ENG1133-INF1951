@@ -26,52 +26,49 @@ class CustomDrawerHeader extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 8.0),
           color: AppColors.purple,
           height: 170,
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
           child: Stack(
             children: [
               Positioned(
-                  left: 0.0,
-                  bottom: 0.0,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 80.0),
-                        width: userManagerStore.isLoggedIn ? 80.0 : 75.0,
-                        height: userManagerStore.isLoggedIn ? 80.0 : 75.0,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: userManagerStore.isLoggedIn
-                                  ? userManagerStore.user.photo != null
-                                      ? NetworkImage(
-                                          userManagerStore.user.photo)
-                                      : AssetImage(AppImages.userWhiteIcon)
-                                  : AssetImage(AppImages.userWhiteIcon),
-                            )),
-                      ),
-                      SizedBox(height: 10.0),
-                      Text(
-                          !userManagerStore.isLoggedIn
-                              ? "Olá, seja bem-vindo!"
-                              : "Olá, ${userManagerStore.user.name}!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10.0),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 80.0),
+                    width: userManagerStore.isLoggedIn ? 80.0 : 75.0,
+                    height: userManagerStore.isLoggedIn ? 80.0 : 75.0,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: userManagerStore.isLoggedIn
+                              ? userManagerStore.user.photo != null
+                                  ? NetworkImage(userManagerStore.user.photo)
+                                  : AssetImage(AppImages.userWhiteIcon)
+                              : AssetImage(AppImages.userWhiteIcon),
+                        )),
+                  ),
+                  SizedBox(height: 10.0),
+                  Text(
                       !userManagerStore.isLoggedIn
-                          ? Text("Entrar ou Criar Conta",
-                              style: TextStyle(
-                                  color: AppColors.yellow,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold))
-                          : Container(),
-                    ],
-                  ))
+                          ? "Olá, seja bem-vindo!"
+                          : "Olá, ${userManagerStore.user.name}!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold)),
+                  SizedBox(height: 10.0),
+                  !userManagerStore.isLoggedIn
+                      ? Text("Entrar ou Criar Conta",
+                          style: TextStyle(
+                              color: AppColors.yellow,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold))
+                      : Container(),
+                ],
+              ))
             ],
           )),
     );
