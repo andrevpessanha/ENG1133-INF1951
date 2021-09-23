@@ -1,16 +1,10 @@
-# agile_unify
+# Agile Unify
 
-A new Flutter project.
+[![icon](https://github.com/andrevpessanha/ENG1133-INF1951/blob/master/assets/images/favicon.png)](ICON)
 
-## Getting Started
+A [Flutter](https://flutter.dev) Mobile Application with [Parse Server](https://parseplatform.org/) BaaS and Design Pattern MVC with [MobX](https://pub.dev/packages/mobx).
 
-This project is a starting point for a Flutter application.
+This project was created as a Bachelor's Thesis for Engineering and Computer Science at PUC-Rio in order to contribute to reducing the distance between the university and the industry through content on Agile and Product Management.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## License
+MIT © 2021 [André Pessanha](https://andrevpessanha.com)
