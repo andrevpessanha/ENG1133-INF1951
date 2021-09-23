@@ -39,6 +39,7 @@ abstract class _HomeStore with Store {
 
         setError(null);
         setLoading(false);
+        if (changeCategory) setChangeCategory(false);
       } catch (e) {
         setError(e.toString());
       }
@@ -75,6 +76,12 @@ abstract class _HomeStore with Store {
 
   @observable
   Category category = Category(id: '*', title: 'Todas');
+
+  @observable
+  bool changeCategory = false;
+
+  @action
+  void setChangeCategory(bool value) => changeCategory = value;
 
   @action
   void setCategory(Category value) {

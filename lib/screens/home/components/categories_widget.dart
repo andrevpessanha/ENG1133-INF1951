@@ -39,6 +39,7 @@ class CategoriesWidget extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
+                        homeStore.setChangeCategory(true);
                         homeStore.setCategory(category);
                       },
                       child: Card(

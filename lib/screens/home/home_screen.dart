@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Observer(builder: (_) {
-                if (!homeStore.showProgress)
+                if (!homeStore.showProgress || homeStore.changeCategory)
                   return Align(
                     alignment: Alignment(0.0, 1.0),
                     child: ScoreCard(
@@ -79,9 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: AppColors.purple,
                                 size: 100,
                               ),
-                              const SizedBox(
-                                height: 8,
-                              ),
+                              const SizedBox(height: 8),
                               Text(
                                 'Ocorreu um erro!',
                                 textAlign: TextAlign.center,

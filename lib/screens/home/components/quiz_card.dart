@@ -52,9 +52,10 @@ class QuizCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 60.0, // era 70
+                height: 70.0,
                 //width: 100.0,
                 child: imagePath != null
                     ? Image.asset(
