@@ -8,12 +8,6 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
   );
 
-  static final TextStyle titleBold = TextStyle(
-    color: AppColors.white,
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-  );
-
   static final TextStyle heading = TextStyle(
     color: AppColors.black,
     fontSize: 18,
@@ -44,12 +38,6 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle bodylightGrey = TextStyle(
-    color: AppColors.lightGreen,
-    fontSize: 13,
-    fontWeight: FontWeight.normal,
-  );
-
   static final TextStyle bodyDarkGreen = TextStyle(
     color: AppColors.darkGreen,
     fontSize: 13,
@@ -60,24 +48,6 @@ class AppTextStyles {
     color: AppColors.darkRed,
     fontSize: 13,
     fontWeight: FontWeight.w500,
-  );
-
-  static final TextStyle body20 = TextStyle(
-    color: AppColors.grey,
-    fontSize: 20,
-    fontWeight: FontWeight.normal,
-  );
-
-  static final TextStyle bodyLightGrey20 = TextStyle(
-    color: AppColors.lightGrey,
-    fontSize: 20,
-    fontWeight: FontWeight.normal,
-  );
-
-  static final TextStyle bodyWhite20 = TextStyle(
-    color: AppColors.white,
-    fontSize: 20,
-    fontWeight: FontWeight.normal,
   );
 
   static final TextStyle body11 = TextStyle(

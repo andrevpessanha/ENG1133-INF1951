@@ -20,7 +20,8 @@ class CourseRepository {
 
   Future<List<Course>> getAccessibleCoursesList() async {
     final queryBuilder = QueryBuilder(ParseObject(keyCourseTable))
-      ..whereEqualTo('type', CourseType.ACCESSIBLE.index);
+      ..whereEqualTo('type', CourseType.ACCESSIBLE.index)
+      ..orderByDescending(keyCourseTitle);
 
     final response = await queryBuilder.query();
 

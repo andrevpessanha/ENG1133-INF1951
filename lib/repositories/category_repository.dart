@@ -9,8 +9,8 @@ class CategoryRepository {
   }
 
   Future<List<Category>> getList() async {
-    final queryBuilder = QueryBuilder(ParseObject(keyCategoryTable))
-      ..orderByAscending(keyCategoryTitle);
+    final queryBuilder = QueryBuilder(ParseObject(keyCategoryTable));
+    //..orderByAscending(keyCategoryTitle);
 
     final response = await queryBuilder.query();
 
